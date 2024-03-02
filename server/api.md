@@ -7,12 +7,12 @@ body:
 {
     name: string,
     description: string,
-    address: string,
     location: {
+        address: string,
         longitude: number,
         latitude: number
     },
-    username: string,
+    email: string,
     password: string,
     type: "producer" | "consumer"
 }

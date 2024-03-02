@@ -1,6 +1,6 @@
 import express from "express";
 
-const auth = require("./auth/auth");
+import auth from "./routes/auth";
 
 const app = express();
 const port = 3000;
