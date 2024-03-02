@@ -1,6 +1,6 @@
 # auth
 
-## POST /api/v1/create-producer-account
+## POST /api/v1/create-account
 
 body:
 ```
@@ -13,7 +13,8 @@ body:
         latitude: number
     },
     username: string,
-    password: string
+    password: string,
+    type: "producer" | "consumer"
 }
 ```
 
