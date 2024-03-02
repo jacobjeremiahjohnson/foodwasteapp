@@ -12,6 +12,13 @@ export function verifyNewAccount(account: Account): string {
 }
 
 export async function createNewAccount(account: Account): Promise<Message> {
+    try {
+        await doesAccountExist(account.email);
+        return { message: "Account with that email already exists", messageType: "error" }
+    } catch {
+        // account doesn't exist!
+    }
+
     const databaseResponse = await createAccount(account);
 
     if(databaseResponse.messageType === "error") return { 

@@ -18,3 +18,8 @@ interface Message {
     messageType: MessageType
     data?: object
 }
+
+interface Session {
+    token: string,
+    creation: number // unix timestamp
+}
