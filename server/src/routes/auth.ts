@@ -29,8 +29,6 @@ router.post("/create-account", async (req, res) => {
         return sendBadRequestMessage(res, ex.message ? ex.message : "An unknown error has occurred");
     }
     
-    
-
     return sendCreatedMessage(res, "Account successfully created");
 });
 

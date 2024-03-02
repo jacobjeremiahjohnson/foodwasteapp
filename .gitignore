@@ -1,3 +1,4 @@
 server/node_modules
 server/build
 website/foodwasteapp/node_modules
+*.env
