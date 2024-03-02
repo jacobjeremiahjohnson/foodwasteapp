@@ -1,6 +1,6 @@
 import express from "express";
 
-import { sendBadRequestMessage, sendCreatedMessage } from "../services/responses";
+import { sendBadRequestMessage, sendCreatedMessage, sendOkMessage } from "../services/responses";
 
 const router = express.Router();
 
@@ -27,8 +27,13 @@ router.post("/create-account", (req, res) => {
     return sendCreatedMessage(res, "Account successfully created");
 });
 
-router.post("/login/:email", (req, res) => {
+router.post("/login", (req, res) => {
+    const login = {
+        username: req.body.username,
+        password: req.body.password
+    };
 
+    return sendOkMessage(res, "Login successful", { session_token: "yummy" })
 });
 
 export default router;
