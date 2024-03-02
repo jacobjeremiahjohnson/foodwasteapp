@@ -12,7 +12,7 @@ body:
         longitude: number,
         latitude: number
     },
-    username: string,
+    email: string,
     password: string,
     type: "producer" | "consumer"
 }
