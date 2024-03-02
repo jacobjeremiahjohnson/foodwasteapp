@@ -1,28 +1,35 @@
 import express from "express";
 
-import { sendBadRequestMessage, sendCreatedMessage, sendOkMessage } from "../services/responses";
+import { sendBadRequestMessage, sendCreatedMessage, sendOkMessage } from "../services/responseService";
+import { verifyNewAccount, createNewAccount } from "../services/authenticationService";
 
 const router = express.Router();
 
-router.post("/create-account", (req, res) => {
+router.post("/create-account", async (req, res) => {
     const account = {
-        name: req.body.name,
-        description: req.body?.description,
+        name: req.body.name?.toString(),
+        description: req.body?.description?.toString(),
         location: {
-            address: req.body.location?.address,
-            longitude: parseFloat(req.body.location?.longitude),
-            latitude: parseFloat(req.body.location?.latitude)
+            address: req.body.location?.address?.toString(),
+            longitude: parseFloat(req.body.location?.longitude?.toString()),
+            latitude: parseFloat(req.body.location?.latitude?.toString())
         },
-        email: req.body.email,
-        password: req.body.password,
-        type: req.body.type
+        email: req.body.email?.toString(),
+        password: req.body.password?.toString(),
+        type: req.body.type?.toString()
     };
 
-    if(account.type !== "producer" && account.type !== "consumer") return sendBadRequestMessage(res, "Invalid account type");
-    if(account.location.longitude < -90 || account.location.longitude >= 90) return sendBadRequestMessage(res, "Invalid longitude");
-    if(account.location.latitude < -180 || account.location.latitude >= 180) return sendBadRequestMessage(res, "Invalid latitude");
-    if(account.password.length < 8) return sendBadRequestMessage(res, "Password must be 8 or more characters");
-    if(!/^\S+@\S+\.\S+$/.test(account.email)) return sendBadRequestMessage(res, "Invalid email");
+    const verification = verifyNewAccount(account);
+    if(verification !== "valid") return sendBadRequestMessage(res, verification);
+
+    try {
+        const databaseResponse = await createNewAccount(account);
+        if(databaseResponse.messageType === "error") return sendBadRequestMessage(res, databaseResponse.message);
+    } catch(ex: any) {
+        return sendBadRequestMessage(res, ex.message ? ex.message : "An unknown error has occurred");
+    }
+    
+    
 
     return sendCreatedMessage(res, "Account successfully created");
 });
