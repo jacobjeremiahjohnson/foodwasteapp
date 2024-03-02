@@ -42,7 +42,7 @@ export async function login(email: string, password: string): Promise<Message> {
                     message: "",
                     messageType: "info",
                     data: {
-                        session_token: putSessionToken(email).token
+                        session_token: putSessionToken(email)
                     }
                 });
             })

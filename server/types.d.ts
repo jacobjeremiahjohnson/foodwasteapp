@@ -20,6 +20,6 @@ interface Message {
 }
 
 interface Session {
-    token: string,
+    email: string,
     creation: number // unix timestamp
 }

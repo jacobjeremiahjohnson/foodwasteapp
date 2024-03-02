@@ -6,12 +6,13 @@ function generateSessionToken(): string {
     return "t" + Date.now() + Math.random();
 }
 
-export function putSessionToken(email: string): Session {
-    sessionTokens[email] = {
-        token: generateSessionToken(),
+export function putSessionToken(email: string): string {
+    const sessionToken = generateSessionToken();
+    sessionTokens[sessionToken] = {
+        email: email,
         creation: Date.now()
     };
-    return sessionTokens[email];
+    return sessionToken;
 }
 
 // run every 5 min
