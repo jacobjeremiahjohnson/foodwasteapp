@@ -1,19 +1,27 @@
 import React from "react"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import "./styles/Create.css"
 import { apiUrl } from "../App"
 
 export default function Login(){
+    const navigate = useNavigate()
 
     const [userInfo, setUserInfo] = useState({})
     const [response, setResponse] = useState({})
 
     useEffect(() => {
+        console.log(response)
         if (Object.keys(response).length === 0){
             return
         }
-        console.log(response)
-        
+        if (response.message === "Account successfully created"){
+            if (userInfo.type === "supplier"){
+                navigate("/dashboard")
+            } else if (userInfo.type === "consumer"){
+                navigate("/live")
+            }
+        }        
     }, [response])
 
     useEffect(() => {
@@ -28,14 +36,13 @@ export default function Login(){
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(userInfo)
-
         })
         .then(response => response.json())
         .then(json => setResponse(json))
-
     }, [userInfo])
 
     function createAccount(formData){
+        console.log("button pressed")
         formData.preventDefault()
         const query = {}
         query.name = formData.target[0].value
@@ -58,8 +65,8 @@ export default function Login(){
                 latitude: 0
             },
             email: "restaurant@restaurant.com",
-            password: 1234,
-            type: "producer"
+            password: 12345678,
+            type: formData.target[5].value
         }   
 
         setUserInfo(practice)
@@ -74,7 +81,7 @@ export default function Login(){
                     <input name="username" placeholder="Email"/>
                     <input name="password" placeholder="Password"/>
                     <select name="type">
-                        <option value="supplier">Restaurant</option>
+                        <option value="producer">Restaurant</option>
                         <option value="consumer">Food Bank</option>
                     </select>
                     <button type="submit">Create Account</button>

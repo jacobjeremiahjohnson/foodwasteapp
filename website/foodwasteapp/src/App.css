@@ -26,11 +26,16 @@ html, body {
 }
 
 .header {
-  height: 30px;
+  height: 50px;
   background-color: red;
 }
 
 .footer {
   height: 50px;
   background-color: blue;
+}
+
+.loginButton {
+  font-size: 20px;
+  float: right;
 }
