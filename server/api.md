@@ -7,8 +7,8 @@ body:
 {
     name: string,
     description: string,
-    address: string,
     location: {
+        address: string,
         longitude: number,
         latitude: number
     },
