@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <Header/>
       <div className="content">
-        I'm very hungry
+        Starv
       </div>
       <Footer/>
     </div>
