@@ -1,4 +1,6 @@
-import { createAccount } from "./databaseService";
+import { createAccount, doesAccountExist } from "./databaseService";
+
+const bcrypt = require("bcryptjs");
 
 export function verifyNewAccount(account: Account): string {
     if(account.type !== "producer" && account.type !== "consumer") return "Invalid account type";
@@ -20,4 +22,18 @@ export async function createNewAccount(account: Account): Promise<Message> {
         message: "",
         messageType: "info"
     };
+}
+
+export async function login(email: string, password: string): Promise<Message> {
+    try {
+        const account = await doesAccountExist(email);
+        return new Promise((res, rej) => {
+            bcrypt.compare(password, account.password, (err, result) => {
+                if(err || !result) rej({ message: "Password does not match", messageType: "error" });
+                res({ message: "", messageType: "info" });
+            })
+        })
+    } catch(ex: any) {
+        return { message: ex.message || "Unknown error", messageType: "error" };
+    }
 }

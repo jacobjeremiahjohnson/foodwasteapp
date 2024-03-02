@@ -19,3 +19,9 @@ export async function createAccount(account: Account): Promise<Message> {
         });
     })
 }
+
+export async function doesAccountExist(email: string): Promise<Account> {
+    const account = await accounts.findOne({ email: email });
+    if(account === null) throw new Error("An account with that email does not exist");
+    return account;
+}
