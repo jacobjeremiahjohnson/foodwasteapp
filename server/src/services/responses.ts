@@ -1,18 +1,19 @@
 import { Response } from "express";
 
-export function sendMessage(message: string, statusCode: number, res: Response): void {
+export function sendMessage(res: Response, message: string, statusCode: number, data: object = {}): void {
     res.status(statusCode);
-    res.json({ message: message });
+    if(data) res.json({ message: message, data: data });
+    else res.json({ message: message });
 }
 
-export function sendBadRequestMessage(message: string, res: Response): void {
-    sendMessage(message, 400, res);
+export function sendBadRequestMessage(res: Response, message: string, data: object = {}): void {
+    sendMessage(res, message, 400, data);
 }
 
-export function sendOkMessage(message: string, res: Response): void {
-    sendMessage(message, 200, res);
+export function sendOkMessage(res: Response, message: string, data: object = {}): void {
+    sendMessage(res, message, 200, data);
 }
 
-export function sendCreatedMessage(message: string, res: Response): void {
-    sendMessage(message, 201, res);
+export function sendCreatedMessage(res: Response, message: string, data: object = {}): void {
+    sendMessage(res, message, 201, data);
 }

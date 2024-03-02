@@ -1,8 +1,18 @@
+all responses are in the format of this object:
+```
+{
+    message: string,
+    data: {
+        // data here
+    }
+}
+```
+if the api doc here specifies some kind of data, then it will be in the response.data object
+
 # auth
 
 ## POST /api/v1/create-account
 
-body:
 ```
 {
     name: string,
@@ -23,7 +33,6 @@ body:
 
 ## POST /api/v1/login
 
-body:
 ```
 {
     username: string,
@@ -31,10 +40,5 @@ body:
 }
 ```
 
-- code 200: success, body:
-```
-{
-    session-token: string
-}
-```
+- code 200: success, data: { session-token: string }
 - anything else: bad
