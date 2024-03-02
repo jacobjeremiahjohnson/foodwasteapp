@@ -1,4 +1,5 @@
 import { createAccount, doesAccountExist } from "./databaseService";
+import { putSessionToken } from "./sessionManagerService";
 
 const bcrypt = require("bcryptjs");
 
@@ -37,7 +38,13 @@ export async function login(email: string, password: string): Promise<Message> {
         return new Promise((res, rej) => {
             bcrypt.compare(password, account.password, (err, result) => {
                 if(err || !result) rej({ message: "Password does not match", messageType: "error" });
-                res({ message: "", messageType: "info" });
+                res({
+                    message: "",
+                    messageType: "info",
+                    data: {
+                        session_token: putSessionToken(email).token
+                    }
+                });
             })
         })
     } catch(ex: any) {

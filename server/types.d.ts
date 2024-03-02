@@ -16,7 +16,7 @@ type MessageType = "info" | "error"
 interface Message {
     message: string,
     messageType: MessageType
-    data?: object
+    data?: any
 }
 
 interface Session {

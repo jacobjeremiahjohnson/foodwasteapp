@@ -41,11 +41,10 @@ router.post("/login", async (req, res) => {
     try {
         const message = await login(loginRequest.email, loginRequest.password);
         if(message.messageType === "error") return sendBadRequestMessage(res, message.message);
+        return sendOkMessage(res, "Login successful", { session_token: message.data.session_token })
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "An unknown error has occurred");
     }
-
-    return sendOkMessage(res, "Login successful", { session_token: "yummy" })
 });
 
 export default router;
