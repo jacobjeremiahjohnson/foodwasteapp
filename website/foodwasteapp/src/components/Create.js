@@ -9,8 +9,15 @@ export default function Login(){
     const [response, setResponse] = useState({})
 
     useEffect(() => {
+        if (Object.keys(response).length === 0){
+            return
+        }
+        console.log(response)
+        
+    }, [response])
+
+    useEffect(() => {
         if (Object.keys(userInfo).length === 0){
-            console.log("Sdl")
             return
         }
         fetch(apiUrl + 'auth/create-account/', {
@@ -59,7 +66,7 @@ export default function Login(){
     }
 
     return (
-        <div className="loginForm">
+        <div className="loginForm main">
             <form onSubmit={createAccount} className="form">
                     <input name="name" placeholder="Name"/>
                     <input name="description" placeholder="Description"/>
