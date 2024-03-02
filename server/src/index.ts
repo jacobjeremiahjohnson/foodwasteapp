@@ -1,7 +1,8 @@
 import express from "express";
-import * as cors from "cors";
 
 import auth from "./routes/auth";
+
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
