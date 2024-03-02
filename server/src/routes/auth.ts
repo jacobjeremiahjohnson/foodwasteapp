@@ -27,4 +27,8 @@ router.post("/create-account", (req, res) => {
     return sendCreatedMessage(res, "Account successfully created");
 });
 
+router.post("/login/:email", (req, res) => {
+
+});
+
 export default router;
