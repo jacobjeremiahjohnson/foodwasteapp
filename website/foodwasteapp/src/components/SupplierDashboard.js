@@ -2,7 +2,7 @@ import React from "react"
 
 export default function SupplierDashboard(){
     return(
-        <div>
+        <div className = "main">
             Supplier dashboard
         </div>
     )
