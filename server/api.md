@@ -1,6 +1,6 @@
 # auth
 
-## POST /api/v1/create-account
+## POST /api/v1/create-producer-account
 
 body:
 ```
