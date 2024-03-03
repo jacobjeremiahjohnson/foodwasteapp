@@ -11,7 +11,7 @@ if the api doc here specifies some kind of data, then it will be in the response
 
 # auth
 
-## POST /api/v1/create-account
+## POST /create-account
 
 ```
 {
@@ -31,7 +31,7 @@ if the api doc here specifies some kind of data, then it will be in the response
 - code 201: success
 - anything else: bad
 
-## POST /api/v1/login
+## POST /login
 
 ```
 {
@@ -40,12 +40,12 @@ if the api doc here specifies some kind of data, then it will be in the response
 }
 ```
 
-- code 200: success, data: { session_token: string }
+- code 200: success, data: { session_token: string, type: "producer" | "consumer" }
 - anything else: bad
 
 # account
 
-## getAccount
+## /me
 
 ```
 {
@@ -54,5 +54,37 @@ if the api doc here specifies some kind of data, then it will be in the response
 ```
 
 - code 200: success, data: {
-    
+    name: string,
+    description: string,
+    location: {
+        address: string
+        latitude: number,
+        longitude: number
+    },
+    email: string,
+    type: "producer" | "consumer"
+}
+
+## /nearby-producers
+
+```
+{
+    session_token: string
+}
+```
+
+- code 200: success, data: {
+    producers: [
+        ...
+        {
+            name: string,
+            description: string,
+            location: {
+                address: string,
+                latitude: number,
+                longitude: number
+            },
+            email: string
+        }
+    ]
 }

@@ -42,7 +42,8 @@ export async function login(email: string, password: string): Promise<Message> {
                     message: "",
                     messageType: "info",
                     data: {
-                        session_token: putSessionToken(email)
+                        session_token: putSessionToken(email),
+                        type: account.type
                     }
                 });
             })
