@@ -120,7 +120,7 @@ Used by producers.
                 latitude: number
             }
             status: "open" | "claimed" | "expired" | "closed",
-            _id: ObjectID
+            id: ObjectID
         }
     ] 
 }

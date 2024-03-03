@@ -85,7 +85,7 @@ export async function getOrdersByEmail(email: string): Promise<RequestResponse[]
                 longitude: o.location.coordinates[0],
                 latitude: o.location.coordinates[1]
             },
-            _id: o._id
+            id: o._id
         };
     });
     return formattedOrders;
@@ -118,8 +118,12 @@ export async function getNearbyOrders(email: string, meters: number): Promise<Re
                 longitude: o.location.coordinates[0],
                 latitude: o.location.coordinates[1]
             },
-            _id: o._id
+            id: o._id
         };
     });
     return formattedOrders;
+}
+
+export async function claimOrder(id: string): Promise<Message> {
+    await orders.
 }

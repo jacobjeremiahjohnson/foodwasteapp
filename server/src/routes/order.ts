@@ -58,12 +58,10 @@ router.post("/claim-order", async (req, res) => {
     const email = getEmailFromSessionToken(sessionToken);
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
-    const claimOrderRequest = {
-        
-    }
+    const id = req.body.id
 
     try {
-
+        
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "Unknown error");
     }
