@@ -78,3 +78,69 @@ For all of these you need Session-Token = (token) set in the headers
         }
     ]
 }
+
+# orders
+
+need a Session-Token like above
+
+## POST /send-order
+
+Used by producers.
+
+```
+{
+    minutes_to_expire: number,
+    description: string,
+    image_url: string, // this url is created in browser
+    pounds: number
+}
+```
+
+- code 200: success
+
+## GET /my-orders
+response message data:
+
+Used by producers.
+
+```
+{
+    orders: [
+        ...
+        {
+            time_to_expire: number (unix milliseconds),
+            description: string,
+            image_url: string,
+            pounds: number,
+            status: "open" | "claimed" | "expired" | "closed",
+            _id: ObjectID
+        }
+    ] 
+}
+// open means it's ok
+// claimed means it's ok and a consumer pinged the order to claim it
+// expired means it was thrown out
+// closed means it was picked up successfully
+```
+
+## GET /nearby-orders
+
+Used by consumers.
+
+response data:
+```
+{
+    orders: [
+        ...
+        {
+            // same as above
+        }
+    ]
+}
+```
+
+## POST /claim-order/:ObjectID
+
+Used by consumers.
+
+ok or error message

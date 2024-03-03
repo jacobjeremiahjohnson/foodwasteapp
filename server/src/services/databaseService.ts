@@ -7,6 +7,7 @@ const client = new MongoClient(connectionString);
 
 const db = client.db("foodwasteapp");
 const accounts = db.collection("accounts");
+const orders = db.collection("orders");
 
 const saltRounds = 10;
 export async function createAccount(account: Account): Promise<Message> {
@@ -41,4 +42,37 @@ export async function getNearbyProducers(email: string, meters: number): Promise
         type: "producer"
     }).toArray();
     return nearbyAccounts;
+}
+
+export async function sendOrder(email: string, orderRequest: OrderRequest): Promise<Message> {
+    const request = {
+        email: email,
+        time_to_expire: Date.now() + orderRequest.minutes_to_expire * 60 * 1000,
+        description: orderRequest.description,
+        image_url: orderRequest.image_url,
+        pounds: orderRequest.pounds,
+        status: "open"
+    };
+
+    try {
+        await orders.insertOne(request);
+        return { message: "Order successfully created", messageType: "info" };
+    } catch(ex: any) {
+        return { message: ex.message || "Unknown error", messageType: "error" };
+    }
+}
+
+export async function getOrdersByEmail(email: string): Promise<RequestResponse[]> {
+    const myOrders = await orders.find({ email: email }).toArray();
+    const formattedOrders = myOrders.map(o => {
+        return {
+            minutes_to_expire: o.minutes_to_expire,
+            description: o.description,
+            image_url: o.image_url,
+            pounds: o.pounds,
+            status: o.status,
+            _id: o._id
+        };
+    });
+    return formattedOrders;
 }
