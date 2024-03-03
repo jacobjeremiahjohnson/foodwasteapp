@@ -83,6 +83,9 @@ export default function SupplierDashboard(props){
                         </div>
                         <input name="description" placeholder="Description of order"/>
                         <input name="expiration" placeholder="Minutes until offer closes"/>
+                        <div className="weightLabel">
+                            How much food is able to be donated?
+                        </div>
                         <input name="weight" placeholder="How much food is able to be donated (lbs.)"/>
                         <input name="image-url" type="file"></input>
                         <button type="submit">Upload!</button>

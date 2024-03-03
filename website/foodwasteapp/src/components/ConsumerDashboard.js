@@ -25,8 +25,8 @@ export default function ConsumerDashboard(props){
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
-            setOrders(json)
+            console.log(json.data)
+            setOrders(json.data.orders)
         })
 
         fetch(apiUrl + "account/me", {
@@ -40,7 +40,6 @@ export default function ConsumerDashboard(props){
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json.data)
             setConsumerInfo(json.data)
         })
     }, [])
