@@ -4,7 +4,7 @@ import auth from "./routes/auth";
 import account from "./routes/account";
 import order from "./routes/order";
 import { port } from "./constants";
-import { expireOrders } from "./services/databaseService";
+import { expireOrders, pruneOrders } from "./services/databaseService";
 import { pruneSessionTokens } from "./services/sessionManagerService";
 
 const cors = require("cors");
@@ -29,6 +29,7 @@ app.listen(port, () => {
 });
 
 setInterval(() => {
-    expireOrders();
-    pruneSessionTokens();
-}, 5 * 1000 * 60);
+    expireOrders(); // expire orders that are past expiry
+    pruneSessionTokens(); // delete sessions older than 20 min
+    pruneOrders(); // delete orders older than 2 days
+}, 1000 * 60);

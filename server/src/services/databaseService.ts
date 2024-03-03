@@ -153,3 +153,13 @@ export function expireOrders() {
     );
 }
 
+export function pruneOrders() {
+    orders.deleteMany(
+        {
+            time_to_expire: {
+                $lte: Date.now() - 1000 * 60 * 60 * 24 * 2 // now - 2 days
+            }
+        }
+    );
+}
+
