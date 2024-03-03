@@ -125,5 +125,7 @@ export async function getNearbyOrders(email: string, meters: number): Promise<Re
 }
 
 export async function claimOrder(id: string): Promise<Message> {
-    await orders.
+    const results = await orders.updateOne({ _id: id }, { $set: { status: "claimed" } });
+    if(results.matchedCount !== 0) return { message: "No order found with that ID", messageType: "error" };
+    return { message: "Successfully claimed order", messageType: "info" };
 }
