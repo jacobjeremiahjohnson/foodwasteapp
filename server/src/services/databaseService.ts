@@ -105,6 +105,7 @@ export async function getNearbyOrdersDB(email: string, meters: number): Promise<
         }
     }).toArray();
     const formattedOrders = nearbyOrders.map(o => {
+        console.log(o);
         return {
             email: o.email,
             name: o.name,
