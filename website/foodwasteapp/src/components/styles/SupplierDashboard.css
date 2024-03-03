@@ -2,7 +2,8 @@
     margin: 10px;
 }
 
-.title{
+.dashboardTitle{
+    font-size: 33px;
     text-align: left;
     padding: 5px;
     width: 100%;
@@ -10,4 +11,66 @@
     border-left: none;
     border-right: none;
     border-top: none;
+}
+
+.dashboardContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.widgetContainer {
+    width: 100%;
+    flex: 1;
+}
+
+.formContainer {
+    width: 100%;
+    flex: 1;
+}
+.dashboardForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    height: 70%;
+    width: 100%;
+    margin-right: 95%;
+    margin-left: 2%;
+    margin-top: 2%;
+    gap: 10px;
+}
+
+.formTitle{
+    font-size: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+.dashboardForm input{
+    width: 80%;
+    padding: 8px;
+    border-bottom: 1px solid #808080;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+.dashboardForm input:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.dashboardForm button{
+    width: 50%;
+    padding: 15px;
+    background-color: #11AEB7;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    margin: auto;
+}
+
+.dashboardForm button:focus{
+    outline: none;
+    box-shadow: none;
 }
