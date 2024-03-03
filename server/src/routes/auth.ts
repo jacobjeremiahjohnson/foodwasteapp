@@ -1,6 +1,6 @@
 import express from "express";
 
-import { sendBadRequestMessage, sendCreatedMessage, sendOkMessage } from "../services/responseService";
+import { sendBadRequestMessage, sendCreatedOrBadRequestMessage, sendOkOrBadRequestMessage } from "../services/responseService";
 import { verifyNewAccount, createNewAccount, login } from "../services/authenticationService";
 
 const router = express.Router();
@@ -25,14 +25,7 @@ router.post("/create-account", async (req, res) => {
     const verification = verifyNewAccount(accountRequest);
     if(verification !== "valid") return sendBadRequestMessage(res, verification);
 
-    try {
-        const databaseResponse = await createNewAccount(accountRequest);
-        if(databaseResponse.messageType === "error") return sendBadRequestMessage(res, databaseResponse.message);
-    } catch(ex: any) {
-        return sendBadRequestMessage(res, ex.message ? ex.message : "An unknown error has occurred");
-    }
-    
-    return sendCreatedMessage(res, "Account successfully created");
+    return sendCreatedOrBadRequestMessage(res, await createNewAccount(accountRequest));
 });
 
 router.post("/login", async (req, res) => {
@@ -41,16 +34,7 @@ router.post("/login", async (req, res) => {
         password: req.body.password?.toString()
     };
 
-    try {
-        const message = await login(loginRequest.email, loginRequest.password);
-        if(message.messageType === "error") return sendBadRequestMessage(res, message.message);
-        return sendOkMessage(res, "Login successful", {
-            session_token: message.data.session_token,
-            type: message.data.type
-        });
-    } catch(ex: any) {
-        return sendBadRequestMessage(res, ex.message || "An unknown error has occurred");
-    }
+    return sendOkOrBadRequestMessage(res, await login(loginRequest.email, loginRequest.password));
 });
 
 export default router;

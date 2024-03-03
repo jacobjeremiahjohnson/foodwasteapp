@@ -10,7 +10,7 @@ const accounts = db.collection("accounts");
 const orders = db.collection("orders");
 
 const saltRounds = 10;
-export async function createAccount(account: Account): Promise<Message> {
+export async function createAccountDB(account: Account): Promise<Message> {
     return new Promise((res, rej) => {
         bcrypt.hash(account.password, saltRounds, (err, hash) => {
             if(err) rej({ message: "Error in password hashing", messageType: "error" });
@@ -21,14 +21,14 @@ export async function createAccount(account: Account): Promise<Message> {
     })
 }
 
-export async function getAccount(email: string): Promise<Account> {
+export async function getAccountDB(email: string): Promise<Account> {
     const account = await accounts.findOne({ email: email });
     if(account === null) throw new Error("An account with that email does not exist");
     return account;
 }
 
-export async function getNearbyProducers(email: string, meters: number): Promise<Account[]> {
-    const account = await getAccount(email);
+export async function getNearbyProducersDB(email: string, meters: number): Promise<Account[]> {
+    const account = await getAccountDB(email);
     const nearbyAccounts = await accounts.find({
         location: {
             $near: {
@@ -44,8 +44,8 @@ export async function getNearbyProducers(email: string, meters: number): Promise
     return nearbyAccounts;
 }
 
-export async function sendOrder(email: string, orderRequest: OrderRequest): Promise<Message> {
-    const account = await getAccount(email);
+export async function sendOrderDB(email: string, orderRequest: OrderRequest): Promise<Message> {
+    const account = await getAccountDB(email);
     const request = {
         email: email,
         name: account.name,
@@ -69,7 +69,7 @@ export async function sendOrder(email: string, orderRequest: OrderRequest): Prom
     }
 }
 
-export async function getOrdersByEmail(email: string): Promise<RequestResponse[]> {
+export async function getOrdersByEmailDB(email: string): Promise<RequestResponse[]> {
     const myOrders = await orders.find({ email: email }).toArray();
     const formattedOrders = myOrders.map(o => {
         return {
@@ -91,8 +91,8 @@ export async function getOrdersByEmail(email: string): Promise<RequestResponse[]
     return formattedOrders;
 }
 
-export async function getNearbyOrders(email: string, meters: number): Promise<RequestResponse[]> {
-    const account = await getAccount(email);
+export async function getNearbyOrdersDB(email: string, meters: number): Promise<RequestResponse[]> {
+    const account = await getAccountDB(email);
     const nearbyOrders = await orders.find({
         location: {
             $near: {
@@ -124,16 +124,24 @@ export async function getNearbyOrders(email: string, meters: number): Promise<Re
     return formattedOrders;
 }
 
-export async function claimOrder(id: string): Promise<Message> {
-    const results = await orders.updateOne({ _id: new ObjectId(id) }, { $set: { status: "claimed" } });
-    if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
-    return { message: "Successfully claimed order", messageType: "info" };
+export async function claimOrderDB(id: string): Promise<Message> {
+    try {
+        const results = await orders.updateOne({ _id: new ObjectId(id) }, { $set: { status: "claimed" } });
+        if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
+        return { message: "Successfully claimed order", messageType: "info" };
+    } catch(ex: any) {
+        return { message: ex.message || "Unknown error", messageType: "error" };
+    }
 }
 
-export async function closeOrder(id: string): Promise<Message> {
-    const results = await orders.updateOne({ _id: new ObjectId(id) }, { $set: { status: "closed" } });
-    if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
-    return { message: "Successfully closed order", messageType: "info" };
+export async function closeOrderDB(id: string): Promise<Message> {
+    try {
+        const results = await orders.updateOne({ _id: new ObjectId(id) }, { $set: { status: "closed" } });
+        if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
+        return { message: "Successfully closed order", messageType: "info" };
+    } catch(ex: any) {
+        return { message: ex.message || "Unknown error", messageType: "error" };
+    }
 }
 
 // run once every 5 minutes
@@ -162,4 +170,3 @@ export function pruneOrders() {
         }
     );
 }
-

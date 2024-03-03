@@ -1,4 +1,4 @@
-import { createAccount, getAccount } from "./databaseService";
+import { createAccountDB, getAccountDB } from "./databaseService";
 import { putSessionToken } from "./sessionManagerService";
 
 const bcrypt = require("bcryptjs");
@@ -14,32 +14,36 @@ export function verifyNewAccount(account: Account): string {
 
 export async function createNewAccount(account: Account): Promise<Message> {
     try {
-        await getAccount(account.email);
+        await getAccountDB(account.email);
         return { message: "Account with that email already exists", messageType: "error" }
     } catch {
         // account doesn't exist!
     }
 
-    const databaseResponse = await createAccount(account);
+    try {
+        const databaseResponse = await createAccountDB(account);
 
-    if(databaseResponse.messageType === "error") return { 
-        message: databaseResponse.message,
-        messageType: "error"
-    };
-    return {
-        message: "",
-        messageType: "info"
-    };
+        if(databaseResponse.messageType === "error") return { 
+            message: databaseResponse.message,
+            messageType: "error"
+        };
+        return {
+            message: "Successfully created account",
+            messageType: "info"
+        };
+    } catch(ex: any) {
+        return { message: ex.message || "Unknown error", messageType: "error" };
+    }
 }
 
 export async function login(email: string, password: string): Promise<Message> {
     try {
-        const account = await getAccount(email);
+        const account = await getAccountDB(email);
         return new Promise((res, rej) => {
             bcrypt.compare(password, account.password, (err, result) => {
                 if(err || !result) rej({ message: "Password does not match", messageType: "error" });
                 res({
-                    message: "",
+                    message: "Logged in successfully",
                     messageType: "info",
                     data: {
                         session_token: putSessionToken(email),

@@ -17,3 +17,13 @@ export function sendOkMessage(res: Response, message: string, data: object = {})
 export function sendCreatedMessage(res: Response, message: string, data: object = {}): void {
     sendMessage(res, message, 201, data);
 }
+
+export function sendOkOrBadRequestMessage(res: Response, message: Message) {
+    if(message.messageType === "error") sendBadRequestMessage(res, message.message, message.data);
+    else sendOkMessage(res, message.message, message.data);
+}
+
+export function sendCreatedOrBadRequestMessage(res: Response, message: Message) {
+    if(message.messageType === "error") sendBadRequestMessage(res, message.message, message.data);
+    else sendCreatedMessage(res, message.message, message.data);
+}

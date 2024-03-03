@@ -1,15 +1,14 @@
 import express from "express";
 
 import { getEmailFromSessionToken } from "../services/sessionManagerService";
-import { sendBadRequestMessage, sendOkMessage } from "../services/responseService";
-import { claimOrder, closeOrder, expireOrders, getNearbyOrders, getOrdersByEmail, sendOrder } from "../services/databaseService";
+import { sendBadRequestMessage, sendCreatedMessage, sendOkMessage, sendOkOrBadRequestMessage } from "../services/responseService";
+import { claimOrderDB, closeOrderDB, expireOrders, getNearbyOrdersDB, getOrdersByEmailDB, sendOrderDB } from "../services/databaseService";
 import { rangeInMeters } from "../constants";
 
 const router = express.Router();
 
 router.post("/send-order", async (req, res) => {
-    const sessionToken = req.header("Session-Token");
-    const email = getEmailFromSessionToken(sessionToken);
+    const email = getEmailFromSessionToken(req.header("Session-Token"));
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
     const orderRequest: OrderRequest = {
@@ -20,20 +19,19 @@ router.post("/send-order", async (req, res) => {
     }
 
     try {
-        await sendOrder(email, orderRequest);
-        return sendOkMessage(res, "Order successfully created");
+        await sendOrderDB(email, orderRequest);
+        return sendCreatedMessage(res, "Order successfully created");
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "Unknown error");
     }
 });
 
 router.get("/my-orders", async (req, res) => {
-    const sessionToken = req.header("Session-Token");
-    const email = getEmailFromSessionToken(sessionToken);
+    const email = getEmailFromSessionToken(req.header("Session-Token"));
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
     try {
-        const myOrders = await getOrdersByEmail(email);
+        const myOrders = await getOrdersByEmailDB(email);
         return sendOkMessage(res, "", { orders: myOrders })
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "Unknown error");
@@ -41,12 +39,11 @@ router.get("/my-orders", async (req, res) => {
 });
 
 router.get("/nearby-orders", async (req, res) => {
-    const sessionToken = req.header("Session-Token");
-    const email = getEmailFromSessionToken(sessionToken);
+    const email = getEmailFromSessionToken(req.header("Session-Token"));
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
     try {
-        const nearbyOrders = await getNearbyOrders(email, rangeInMeters);
+        const nearbyOrders = await getNearbyOrdersDB(email, rangeInMeters);
         return sendOkMessage(res, "", { orders: nearbyOrders });
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "Unknown error");
@@ -54,35 +51,19 @@ router.get("/nearby-orders", async (req, res) => {
 });
 
 router.post("/claim-order", async (req, res) => {
-    const sessionToken = req.header("Session-Token");
-    const email = getEmailFromSessionToken(sessionToken);
+    const email = getEmailFromSessionToken(req.header("Session-Token"));
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
     const id = req.body.id;
-
-    try {
-        const message = await claimOrder(id);
-        if(message.messageType === "error") return sendBadRequestMessage(res, message.message);
-        return sendOkMessage(res, message.message);
-    } catch(ex: any) {
-        return sendBadRequestMessage(res, ex.message || "Unknown error");
-    }
+    return sendOkOrBadRequestMessage(res, await claimOrderDB(id));
 });
 
 router.post("/close-order", async (req, res) => {
-    const sessionToken = req.header("Session-Token");
-    const email = getEmailFromSessionToken(sessionToken);
+    const email = getEmailFromSessionToken(req.header("Session-Token"));
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
     const id = req.body.id;
-
-    try {
-        const message = await closeOrder(id);
-        if(message.messageType === "error") return sendBadRequestMessage(res, message.message);
-        return sendOkMessage(res, message.message);
-    } catch(ex: any) {
-        return sendBadRequestMessage(res, ex.message || "Unknown error");
-    }
+    return sendOkOrBadRequestMessage(res, await closeOrderDB(id));
 });
 
 export default router;
