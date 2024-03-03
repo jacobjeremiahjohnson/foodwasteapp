@@ -14,7 +14,7 @@ export default function ConsumerDashboard(props){
             navigate("/login")
         }
         console.log(props.token)
-        fetch(apiUrl + "order/my-orders", {
+        fetch(apiUrl + "order/nearby-orders", {
             method: 'GET',
             mode: 'cors',
             credentials: 'same-origin',
@@ -25,6 +25,7 @@ export default function ConsumerDashboard(props){
         })
         .then(response => response.json())
         .then(json => {
+            console.log(json)
             setOrders(json)
         })
 
@@ -39,6 +40,7 @@ export default function ConsumerDashboard(props){
         })
         .then(response => response.json())
         .then(json => {
+            console.log(json.data)
             setConsumerInfo(json.data)
         })
     }, [])

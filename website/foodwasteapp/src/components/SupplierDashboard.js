@@ -30,12 +30,16 @@ export default function SupplierDashboard(props){
     }, [])
 
     useEffect(() => {
+        if (Object.keys(orderInfo).length === 0){
+            return
+        }
         fetch(apiUrl + "order/send-order", {
             method: 'POST',
             mode: 'cors',
             credentials: 'same-origin',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "session-token": props.token
             },
             body: JSON.stringify(orderInfo)
         })
@@ -59,15 +63,24 @@ export default function SupplierDashboard(props){
 
     return(
         <div className = "main">
-             <div className = "title">{producerInfo.name + " Dashboard"}</div>
-             <div className = "formContainer">
-                    <form onSubmit={createOrder} className="form">
+             <div className = "dashboardTitle">{producerInfo.name + " Dashboard"}</div>
+             <div className = "dashboardContainer">
+                <div className = "formContainer">
+                    <form onSubmit={createOrder} className="dashboardForm">
+                        <div className="formTitle">
+                            Create listing
+                        </div>
                         <input name="description" placeholder="Description of order"/>
-                        <input name="expiration" placeholder="Minutes to expire (approx.)"/>
+                        <input name="expiration" placeholder="Minutes until offer closes"/>
                         <input name="weight" placeholder="How much food is able to be donated (lbs.)"/>
+                        <input name="image-url" type="file"></input>
                         <button type="submit">Upload!</button>
                     </form>
                 </div>
+                <div className = "widgetContainer">
+
+                </div>
+            </div>
         </div>
     )
 }
