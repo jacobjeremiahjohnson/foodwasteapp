@@ -10,6 +10,7 @@
     text-align: left;
     font-size: 33px;
     padding-bottom: 5px;
+    padding-top: 2px;
 }
 
 .imageContainer {
@@ -144,4 +145,16 @@ button {
     object-fit: cover;
     border-radius: 8px;
     display: block;
+}
+
+.claimButton {
+    width: 60%;
+    height: 10%;
+    border-radius: 5px;
+    background-color: #9A5AA5;
+    color: white;
+    margin-top: 15px;
+}
+.claimButton:hover {
+    cursor: pointer;
 }

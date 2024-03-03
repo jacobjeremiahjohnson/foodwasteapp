@@ -2,7 +2,6 @@ import { OrderCard } from "./OrderCard"
 
 export function OrderCardList(props) {
     if (props.displayOrder){
-        console.log(props.orderObject.orders)
         const arr = props.orderObject.orders || []
 
         return(
@@ -18,7 +17,6 @@ export function OrderCardList(props) {
             </ul>
         )
     } else {
-        console.log("not displaying orders")
         return(
         <div>
             

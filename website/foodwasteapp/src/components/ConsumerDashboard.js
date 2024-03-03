@@ -11,10 +11,42 @@ export default function ConsumerDashboard(props){
     const [orderObject, setOrders] = useState({})
     const [displayOrder, setDisplayOrder] = useState(false)
     const [orderDetails, setOrderDetails] = useState({})
-
-    console.log(orderDetails)
+    const [claimedOrder, setClaimedOrder] = useState({})
+    const [orderIsClaimed, setOrderIsClaimed] = useState(false)
 
     useEffect(() => {
+        if(Object.keys(claimedOrder).length === 0){
+            return
+        }
+
+        console.log(claimedOrder.data.id)
+        const query = {
+            id: claimedOrder.data.id
+        }
+        console.log(query)
+        console.log(props.token)
+
+        fetch(apiUrl + "order/claim-order", {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'same-origin',
+            headers: {
+                "Content-Type": "application/json",
+                "Session-Token": props.token
+            },
+            body: JSON.stringify(query)
+        })
+        .then(response => response.json())
+        .then(json =>{
+            console.log(json)}
+        )
+
+    }, [claimedOrder])
+
+    useEffect(() => {
+        if(orderIsClaimed){
+            setOrderIsClaimed(false)
+        }
         if (!props.token){
             navigate("/login")
         }
@@ -29,7 +61,6 @@ export default function ConsumerDashboard(props){
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json.data)
             setOrders(json.data)
         })
 
@@ -46,22 +77,49 @@ export default function ConsumerDashboard(props){
         .then(json => {
             setConsumerInfo(json.data)
         })
-    }, [navigate, props.token])
+    }, [navigate, props.token, claimedOrder])
 
     useEffect(() => {
         if(Object.keys(orderObject) === 0){
             return
         }
         setDisplayOrder(true)
-        console.log(orderObject)
     }, [orderObject])
 
     function handleClick(props, data){
         setOrderDetails(data)
     }
 
-    function OrderDetails() {
-        
+    function claim(e, args){
+        console.log(args.data.id)
+        setClaimedOrder(args)
+    }
+
+    function OrderDetails(props) {
+        if(Object.keys(props.data).length === 0) {
+            return(<div></div>)
+        }
+            return(
+                <div className="focusDetails">
+                    <div className="focusedOrderTitle">
+                        {props.data.name}
+                    </div>
+                    <div className="focusedAddress">
+                        {props.data.location.address}
+                    </div>
+                    <div className="focusedImageContainer">
+                        <img className="focusedImage" src={props.data.image_url}/>
+                    </div>
+                    <div className="focusedOrderDescription">
+                        {props.data.description}
+                    </div>
+                    <button className="claimButton" onClick={(e) => {
+                        claim(e, props)
+                    }}>
+                        Claim!
+                    </button>
+                </div>
+            )
     }
 
     if(Object.keys(orderObject).length === 0) {
@@ -79,9 +137,7 @@ export default function ConsumerDashboard(props){
             <div className = "orderList">
                 <OrderCardList displayOrder={displayOrder} orderObject={orderObject} handleClick={handleClick}/>
             </div>
-            <div className = "focusDetails">
-                <OrderDetails/>
-            </div>
+                <OrderDetails data={orderDetails}/>
             </div>
         </div>
     )
