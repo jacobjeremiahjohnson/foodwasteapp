@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { apiUrl } from "../App.js"
 import "./styles/SupplierDashboard.css"
 
+import picker from "../assets/picker.png"
+
 async function imageToImageUrl(file) {
     const body = new FormData()
     body.append("image", file)
@@ -25,6 +27,7 @@ export default function SupplierDashboard(props){
 
     const [producerInfo, setProducerInfo] = useState({})
     const [orderInfo, setOrderInfo] = useState({})
+    const [imageUrl, setImageUrl] = useState(picker)
 
     useEffect(() => {
         if (!props.token){
@@ -65,6 +68,10 @@ export default function SupplierDashboard(props){
         })
     }, [orderInfo])
 
+    function onImageChange(e) {
+        setImageUrl(URL.createObjectURL(e.target.files[0]))
+    }
+
     async function createOrder(formData){
         formData.preventDefault()
 
@@ -96,7 +103,8 @@ export default function SupplierDashboard(props){
                             How much food is able to be donated?
                         </div>
                         <input name="weight" placeholder="How much food is able to be donated (lbs.)"/>
-                        <input name="image-url" type="file"></input>
+                        <input name="image-url" type="file" onChange={onImageChange}></input>
+                        <img className="uploadedImg" src={imageUrl} alt="Your custom upload"/>
                         <button type="submit">Upload!</button>
                     </form>
                 </div>
