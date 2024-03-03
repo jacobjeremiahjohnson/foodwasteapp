@@ -16,7 +16,7 @@ export default function Login(props){
             return
         }
         console.log(response)
-        if (response.message === "Account successfully created"){
+        if (response.message === "Successfully created account"){
             fetch(apiUrl + 'auth/login', {
                 method: 'POST',
                 mode: 'cors',
