@@ -1,7 +1,7 @@
 import React from "react"
 import "../App.css"
 
-export default function Header(){
+export default function Footer(){
     return (
     <div>
         <div className="footer">

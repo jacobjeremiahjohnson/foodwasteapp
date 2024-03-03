@@ -1,17 +1,11 @@
 import React from "react"
-import { useNavigate } from "react-router-dom"
+import { ReactComponent as Logo } from "../assets/logo.svg"
 import "../App.css"
 
 export default function Header(){
-    const navigate = useNavigate()
-
     return (
-    <div>
-        <div className="header">
-            <button className="loginButton" onClick={() => {
-                navigate("/login")
-            }}>Log In</button>
+        <div>
+            <Logo className="leftoversLogo"/>
         </div>
-    </div>
     )
 }

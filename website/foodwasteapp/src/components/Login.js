@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { apiUrl } from "../App.js"
 import "./styles/Login.css"
+import Header from "./Header.js"
 
 export default function Login(props){
     const navigate = useNavigate()
@@ -40,7 +41,7 @@ export default function Login(props){
         } else if (response.data.type === "consumer"){
             navigate("/live")
         }
-    }, [response])
+    }, [response, navigate, props])
 
     function login(formData){
         formData.preventDefault()
@@ -51,16 +52,19 @@ export default function Login(props){
     }
 
     return (
-        <div className = "main">
-        <div className = "loginForm">
-            <div className="title">
-                Log In
+        <div>
+            <Header/>
+            <div className = "main">
+            <div className = "loginForm">
+                <div className="title">
+                    Log In
+                </div>
+                <form onSubmit={login} className="form">
+                    <input name="username" placeholder="Email"/>
+                    <input name="password" placeholder="Password"/>
+                    <button type="submit">Log In</button>
+                </form>
             </div>
-            <form onSubmit={login} className="form">
-                <input name="username" placeholder="Email"/>
-                <input name="password" placeholder="Password"/>
-                <button type="submit">Log In</button>
-            </form>
         </div>
         </div>
     )

@@ -12,8 +12,7 @@
 .createForm {
     margin-top: 30px;
     width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0.5em auto;
 }
 
 .form input{
