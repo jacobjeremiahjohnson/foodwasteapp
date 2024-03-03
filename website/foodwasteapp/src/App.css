@@ -37,3 +37,8 @@ svg.leftoversLogo {
   height: 4rem;
   margin: 0.5em;
 }
+
+
+.expandable:hover {
+  cursor: pointer;
+}
