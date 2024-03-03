@@ -4,19 +4,32 @@ import { useNavigate } from "react-router-dom"
 import "./styles/Create.css"
 import { apiUrl } from "../App"
 
-export default function Login(){
+export default function Login(props){
     const navigate = useNavigate()
 
     const [userInfo, setUserInfo] = useState({})
     const [response, setResponse] = useState({})
 
     useEffect(() => {
-        console.log(response)
         if (Object.keys(response).length === 0){
             return
         }
         if (response.message === "Account successfully created"){
-            if (userInfo.type === "supplier"){
+            fetch(apiUrl + 'auth/login', {
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'same-origin',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email: userInfo.email, password: userInfo.password})
+            })
+            .then(response => response.json())
+            .then(json => {
+                props.setToken(json.data.session_token)
+            })
+            console.log(userInfo.type)
+            if (userInfo.type === "producer"){
                 navigate("/dashboard")
             } else if (userInfo.type === "consumer"){
                 navigate("/live")
@@ -42,34 +55,39 @@ export default function Login(){
     }, [userInfo])
 
     function createAccount(formData){
-        console.log("button pressed")
         formData.preventDefault()
-        const query = {}
-        query.name = formData.target[0].value
-        query.description = formData.target[1].value
-        query.location = {
-            address: formData.target[2].value,
-            longitude: 39.677047,
-            latititude: -75.760772
-        }
-        query.email = formData.target[3].value
-        query.password = formData.target[4].value
-        query.type = formData.target[5].value
 
-        const practice = {
-            name: "Restaurant",
-            description: "We make food",
-            location: {
-                address: "880 Powder Mill Road",
-                longitude: 0,
-                latitude: 0
-            },
-            email: "restaurant@restaurant.com",
-            password: 12345678,
-            type: formData.target[5].value
-        }   
+        navigator.geolocation.getCurrentPosition(location => {
+            /*
+            const practice = {
+                name: "Restaurant",
+                description: "We make food",
+                location: {
+                    address: "880 Powder Mill Road",
+                    longitude: 0,
+                    latitude: 0
+                },
+                email: "soup@restaurant.com",
+                password: 12345678,
+                type: "producer"
+            }
+            */
 
-        setUserInfo(practice)
+            const newAccountQuery = {
+                name: formData.target[0].value,
+                description: formData.target[1].value,
+                location: {
+                    address: formData.target[2].value,
+                    longitude: location.coords.longitude,
+                    latitude: location.coords.latitude
+                },
+                email: formData.target[3].value,
+                password: formData.target[4].value,
+                type: formData.target[5].value
+            }
+
+            setUserInfo(newAccountQuery);
+        })
     }
 
     return (
@@ -86,6 +104,9 @@ export default function Login(){
                     </select>
                     <button type="submit">Create Account</button>
             </form>
+            <div className="error"> 
+                {}
+            </div>
         </div>
     )
 }
