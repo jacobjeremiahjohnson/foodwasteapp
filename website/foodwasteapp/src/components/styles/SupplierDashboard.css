@@ -72,13 +72,13 @@
 }
 
 .dashboardForm button{
-    width: 50%;
+    width: 80%;
     padding: 15px;
     background-color: #11AEB7;
     border-radius: 8px;
     color: white;
     border: none;
-    margin: auto;
+    margin: 0.5rem;
 }
 
 .dashboardForm button:focus{
