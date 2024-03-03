@@ -4,11 +4,16 @@
     justify-content: space-between;
 }
 
-.pageTitle {
-    margin-right: auto;
-    text-align: left;
+.pageTitle{
     font-size: 33px;
-    padding-bottom: 5px;
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    border-bottom: 1px solid #ababab;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    margin: auto auto 0.5rem auto;
 }
 
 .imageContainer {
@@ -115,6 +120,7 @@ button {
     flex-direction: row;
     justify-content: stretch;
     gap: 10px;
+    margin-bottom: 1em;
 }
 
 .focusedOrderTitle {
