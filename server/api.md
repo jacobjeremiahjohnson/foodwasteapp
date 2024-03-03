@@ -35,10 +35,24 @@ if the api doc here specifies some kind of data, then it will be in the response
 
 ```
 {
-    username: string,
+    email: string,
     password: string
 }
 ```
 
 - code 200: success, data: { session_token: string }
 - anything else: bad
+
+# account
+
+## getAccount
+
+```
+{
+    session_token: string
+}
+```
+
+- code 200: success, data: {
+    
+}

@@ -1,10 +1,10 @@
 interface Account {
     name: string,
     description: string,
+    address: string,
     location: {
-        address: string,
-        longitude: number,
-        latitude: number
+        type: "Point",
+        coordinates: [number, number] // longitude, latitude
     },
     email: string,
     password: string,

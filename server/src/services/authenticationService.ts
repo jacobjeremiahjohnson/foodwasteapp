@@ -5,8 +5,8 @@ const bcrypt = require("bcryptjs");
 
 export function verifyNewAccount(account: Account): string {
     if(account.type !== "producer" && account.type !== "consumer") return "Invalid account type";
-    if(account.location.longitude < -90 || account.location.longitude >= 90) return "Invalid longitude";
-    if(account.location.latitude < -180 || account.location.latitude >= 180) return "Invalid latitude";
+    if(account.location[0] < -180 || account.location[0] > 180) return "Invalid longitude";
+    if(account.location[1] < -90 || account.location[1] > 90) return "Invalid latitude";
     if(account.password.length < 8) return "Password must be 8 or more characters";
     if(!/^\S+@\S+\.\S+$/.test(account.email)) return "Invalid email";
     return "valid";

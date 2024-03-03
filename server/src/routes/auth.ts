@@ -6,13 +6,16 @@ import { verifyNewAccount, createNewAccount, login } from "../services/authentic
 const router = express.Router();
 
 router.post("/create-account", async (req, res) => {
-    const accountRequest = {
+    const accountRequest: Account = {
         name: req.body.name?.toString(),
         description: req.body?.description?.toString(),
+        address: req.body.location?.address?.toString(),
         location: {
-            address: req.body.location?.address?.toString(),
-            longitude: parseFloat(req.body.location?.longitude?.toString()),
-            latitude: parseFloat(req.body.location?.latitude?.toString())
+            type: "Point",
+            coordinates: [
+                parseFloat(req.body.location?.longitude?.toString()),
+                parseFloat(req.body.location?.latitude?.toString())
+            ]
         },
         email: req.body.email?.toString(),
         password: req.body.password?.toString(),
