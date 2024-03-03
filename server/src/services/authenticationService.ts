@@ -1,4 +1,4 @@
-import { createAccount, doesAccountExist } from "./databaseService";
+import { createAccount, getAccount } from "./databaseService";
 import { putSessionToken } from "./sessionManagerService";
 
 const bcrypt = require("bcryptjs");
@@ -14,7 +14,7 @@ export function verifyNewAccount(account: Account): string {
 
 export async function createNewAccount(account: Account): Promise<Message> {
     try {
-        await doesAccountExist(account.email);
+        await getAccount(account.email);
         return { message: "Account with that email already exists", messageType: "error" }
     } catch {
         // account doesn't exist!
@@ -34,7 +34,7 @@ export async function createNewAccount(account: Account): Promise<Message> {
 
 export async function login(email: string, password: string): Promise<Message> {
     try {
-        const account = await doesAccountExist(email);
+        const account = await getAccount(email);
         return new Promise((res, rej) => {
             bcrypt.compare(password, account.password, (err, result) => {
                 if(err || !result) rej({ message: "Password does not match", messageType: "error" });

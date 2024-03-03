@@ -6,6 +6,10 @@ function generateSessionToken(): string {
     return "t" + Date.now() + Math.random();
 }
 
+export function getEmailFromSessionToken(token: string): string {
+    return sessionTokens[token]?.email;
+}
+
 export function putSessionToken(email: string): string {
     const sessionToken = generateSessionToken();
     sessionTokens[sessionToken] = {

@@ -20,8 +20,25 @@ export async function createAccount(account: Account): Promise<Message> {
     })
 }
 
-export async function doesAccountExist(email: string): Promise<Account> {
+export async function getAccount(email: string): Promise<Account> {
     const account = await accounts.findOne({ email: email });
     if(account === null) throw new Error("An account with that email does not exist");
     return account;
+}
+
+export async function getNearbyProducers(email: string, meters: number): Promise<Account[]> {
+    const account = await getAccount(email);
+    const nearbyAccounts = await accounts.find({
+        location: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: account.location.coordinates
+                },
+                $maxDistance: meters
+            }
+        },
+        type: "producer"
+    }).toArray();
+    return nearbyAccounts;
 }

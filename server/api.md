@@ -45,13 +45,9 @@ if the api doc here specifies some kind of data, then it will be in the response
 
 # account
 
-## /me
+For all of these you need Session-Token = (token) set in the headers
 
-```
-{
-    session_token: string
-}
-```
+## GET /me
 
 - code 200: success, data: {
     name: string,
@@ -65,13 +61,7 @@ if the api doc here specifies some kind of data, then it will be in the response
     type: "producer" | "consumer"
 }
 
-## /nearby-producers
-
-```
-{
-    session_token: string
-}
-```
+## GET /nearby-producers
 
 - code 200: success, data: {
     producers: [
