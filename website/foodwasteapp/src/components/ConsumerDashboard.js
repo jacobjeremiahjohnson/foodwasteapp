@@ -1,9 +1,9 @@
 import React from "react"
 
-export default function ConsumerDashboard(){
+export default function ConsumerDashboard(props){
     return(
         <div className = "main">
-            Consumer Dashboard
+            {props.token}
         </div>
     )
 }

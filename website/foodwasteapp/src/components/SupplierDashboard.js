@@ -1,9 +1,9 @@
 import React from "react"
 
-export default function SupplierDashboard(){
+export default function SupplierDashboard(props){
     return(
         <div className = "main">
-            Supplier dashboard
+            {props.token}
         </div>
     )
 }
