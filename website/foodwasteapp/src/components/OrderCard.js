@@ -30,7 +30,7 @@ export function OrderCard(props) {
                     props.data.status === "closed" &&
                     <div className="expirationNotifier" style = {{ backgroundColor: "grey" }}>
                         <div className="emojiContainer">
-                        ✔️
+                        ❌
                         </div>
                             <div className="expiration">
                         {props.data.status}
@@ -39,7 +39,7 @@ export function OrderCard(props) {
                 }
                 {
                 props.data.status === "claimed" &&
-                    <div className="expirationNotifier" style = {{ backgroundColor: "green" }}>
+                    <div className="expirationNotifier" style = {{ backgroundColor: "#90C418" }}>
                         <div className="emojiContainer">
                         ✔️
                         </div>
