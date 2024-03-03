@@ -75,7 +75,7 @@ export async function getOrdersByEmail(email: string): Promise<RequestResponse[]
         return {
             email: o.email,
             name: o.name,
-            minutes_to_expire: o.minutes_to_expire,
+            minutes_to_expire: (o.time_to_expire - Date.now()) / 1000 / 60,
             description: o.description,
             image_url: o.image_url,
             pounds: o.pounds,
@@ -108,7 +108,7 @@ export async function getNearbyOrders(email: string, meters: number): Promise<Re
         return {
             email: o.email,
             name: o.name,
-            minutes_to_expire: o.minutes_to_expire,
+            minutes_to_expire: (o.time_to_expire - Date.now()) / 1000 / 60,
             description: o.description,
             image_url: o.image_url,
             pounds: o.pounds,
@@ -129,3 +129,27 @@ export async function claimOrder(id: string): Promise<Message> {
     if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
     return { message: "Successfully claimed order", messageType: "info" };
 }
+
+export async function closeOrder(id: string): Promise<Message> {
+    const results = await orders.updateOne({ _id: new ObjectId(id) }, { $set: { status: "closed" } });
+    if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
+    return { message: "Successfully closed order", messageType: "info" };
+}
+
+// run once every 5 minutes
+export function expireOrders() {
+    orders.updateMany(
+        {
+            time_to_expire: {
+                $lte: Date.now()
+            },
+            status: "open"
+        },
+        {
+            $set: {
+                status: "expired"
+            } 
+        }
+    );
+}
+

@@ -110,7 +110,7 @@ Used by producers.
         {
             email: string,
             name: string
-            time_to_expire: number (unix milliseconds),
+            minutes_to_expire: number,
             description: string,
             image_url: string,
             pounds: number,
@@ -149,6 +149,18 @@ response data:
 ## POST /claim-order
 
 Used by consumers.
+
+```
+{
+    id: ObjectID
+}
+```
+
+ok or error message
+
+## POST /close-order
+
+Used by consumers or producers ig.
 
 ```
 {

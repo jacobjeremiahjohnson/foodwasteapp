@@ -2,7 +2,7 @@ import express from "express";
 
 import { getEmailFromSessionToken } from "../services/sessionManagerService";
 import { sendBadRequestMessage, sendOkMessage } from "../services/responseService";
-import { claimOrder, getNearbyOrders, getOrdersByEmail, sendOrder } from "../services/databaseService";
+import { claimOrder, closeOrder, expireOrders, getNearbyOrders, getOrdersByEmail, sendOrder } from "../services/databaseService";
 import { rangeInMeters } from "../constants";
 
 const router = express.Router();
@@ -58,7 +58,7 @@ router.post("/claim-order", async (req, res) => {
     const email = getEmailFromSessionToken(sessionToken);
     if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
-    const id = req.body.id
+    const id = req.body.id;
 
     try {
         const message = await claimOrder(id);
@@ -67,6 +67,22 @@ router.post("/claim-order", async (req, res) => {
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "Unknown error");
     }
-})
+});
+
+router.post("/close-order", async (req, res) => {
+    const sessionToken = req.header("Session-Token");
+    const email = getEmailFromSessionToken(sessionToken);
+    if(!email) return sendBadRequestMessage(res, "Invalid session token");
+
+    const id = req.body.id;
+
+    try {
+        const message = await closeOrder(id);
+        if(message.messageType === "error") return sendBadRequestMessage(res, message.message);
+        return sendOkMessage(res, message.message);
+    } catch(ex: any) {
+        return sendBadRequestMessage(res, ex.message || "Unknown error");
+    }
+});
 
 export default router;

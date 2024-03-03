@@ -4,6 +4,8 @@ import auth from "./routes/auth";
 import account from "./routes/account";
 import order from "./routes/order";
 import { port } from "./constants";
+import { expireOrders } from "./services/databaseService";
+import { pruneSessionTokens } from "./services/sessionManagerService";
 
 const cors = require("cors");
 
@@ -25,3 +27,8 @@ app.get("/api/v1/", (_, res) => {
 app.listen(port, () => {
     return console.log(`Server live on localhost:${port}/api/v1/`);
 });
+
+setInterval(() => {
+    expireOrders();
+    pruneSessionTokens();
+}, 5 * 1000 * 60);

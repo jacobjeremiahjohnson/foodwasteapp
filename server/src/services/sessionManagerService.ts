@@ -20,8 +20,9 @@ export function putSessionToken(email: string): string {
 }
 
 // run every 5 min
-function pruneSessionTokens() {
+export function pruneSessionTokens() {
     for(const session in sessionTokens) {
-        if(sessionTokens[session].creation - (Date.now() + 20 * 60000) < 0) delete sessionTokens[session];
+        // current date is greater than when session started + 20 minutes, remove
+        if(Date.now() > (sessionTokens[session].creation + 20 * 60000)) delete sessionTokens[session];
     }
 }
