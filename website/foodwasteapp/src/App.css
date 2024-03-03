@@ -32,3 +32,8 @@ html, body {
   bottom: 0;
   right: 0;
 }
+
+svg.leftoversLogo {
+  height: 4rem;
+  margin: 0.5em;
+}

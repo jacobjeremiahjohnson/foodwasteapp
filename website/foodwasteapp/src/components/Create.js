@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import "./styles/Create.css"
 import { apiUrl } from "../App"
+import Header from "./Header"
 
 export default function Login(props){
     const navigate = useNavigate()
@@ -36,7 +37,7 @@ export default function Login(props){
                 }
             })
         }        
-    }, [response])
+    }, [response, navigate, props, userInfo.email, userInfo.password, userInfo.type])
 
     useEffect(() => {
         if (Object.keys(userInfo).length === 0){
@@ -101,7 +102,9 @@ export default function Login(props){
     // }
 
     return (
-        <div className="main">
+        <div>
+            <Header/>
+            <div className="main">
             <div className="createForm">
             <div className="title">
                 Create your account
@@ -127,6 +130,7 @@ are not accepted at this time.
                     </div>
             </form>
             </div>
+        </div>
         </div>
     )
 }
