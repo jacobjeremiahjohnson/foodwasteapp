@@ -4,6 +4,17 @@ import { useNavigate } from "react-router-dom"
 import { apiUrl } from "../App.js"
 import "./styles/SupplierDashboard.css"
 
+async function imageToImageUrl(file) {
+    const body = new FormData()
+    body.append("image", file)
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_img_bb_api_key}`, {
+        method: "POST",
+        body: body
+    })
+    const json = res.json()
+    console.log(json)
+}
+
 export default function SupplierDashboard(props){
     const navigate = useNavigate()
 
