@@ -14,7 +14,7 @@ export default function ConsumerDashboard(props){
             navigate("/login")
         }
         console.log(props.token)
-        fetch(apiUrl + "orders/my-orders", {
+        fetch(apiUrl + "order/my-orders", {
             method: 'GET',
             mode: 'cors',
             credentials: 'same-origin',
