@@ -44,9 +44,6 @@ export default function ConsumerDashboard(props){
     }, [claimedOrder])
 
     useEffect(() => {
-        if(orderIsClaimed){
-            setOrderIsClaimed(false)
-        }
         if (!props.token){
             navigate("/login")
         }

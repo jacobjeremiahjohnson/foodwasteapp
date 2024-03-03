@@ -38,6 +38,17 @@ export function OrderCard(props) {
                     </div>
                 }
                 {
+                props.data.status === "claimed" &&
+                    <div className="expirationNotifier" style = {{ backgroundColor: "green" }}>
+                        <div className="emojiContainer">
+                        ✔️
+                        </div>
+                            <div className="expiration">
+                        {props.data.status}
+                        </div>
+                    </div>
+                    }
+                {
                     props.data.status === "open" &&
                     <button className="expirationNotifier expandable" style = {{ backgroundColor: "#90C418" }} onClick={(e) => {
                         props.handleClick(e, props.data)
