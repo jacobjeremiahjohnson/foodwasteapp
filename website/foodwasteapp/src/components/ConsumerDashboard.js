@@ -74,8 +74,24 @@ export default function ConsumerDashboard(props){
         setOrderDetails(data)
     }
 
-    function OrderDetails() {
-        
+    function OrderDetails(props) {
+        console.log(props)
+            return(
+                <div>
+                    <div className="focusedOrderTitle">
+                        {props.data.name}
+                    </div>
+                    <div className="focusedAddress">
+                        {props.data.location.address}
+                    </div>
+                    <div className="focusedImageContainer">
+                        <img className="focusedImage" src={props.data.image_url}/>
+                    </div>
+                    <div className="focusedOrderDescription">
+                        {props.data.description}
+                    </div>
+                </div>
+            )
     }
 
     function OrderCard(props){
@@ -178,7 +194,7 @@ export default function ConsumerDashboard(props){
                 <OrderCardList />
             </div>
             <div className = "focusDetails">
-                <OrderDetails />
+                <OrderDetails data={orderDetails}/>
             </div>
             </div>
         </div>
