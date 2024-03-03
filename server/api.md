@@ -146,8 +146,14 @@ response data:
 }
 ```
 
-## POST /claim-order/:ObjectID
+## POST /claim-order
 
 Used by consumers.
+
+```
+{
+    id: ObjectID
+}
+```
 
 ok or error message
