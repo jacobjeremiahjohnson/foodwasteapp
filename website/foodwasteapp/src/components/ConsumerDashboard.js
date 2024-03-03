@@ -2,7 +2,7 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { apiUrl } from "../App.js"
-import { OrderCard } from "./OrderCard.js"
+import { OrderCardList } from "./OrderCardList.js"
 import "./styles/Dashboard.css"
 
 export default function ConsumerDashboard(props){
@@ -11,6 +11,8 @@ export default function ConsumerDashboard(props){
     const [orderObject, setOrders] = useState({})
     const [displayOrder, setDisplayOrder] = useState(false)
     const [orderDetails, setOrderDetails] = useState({})
+
+    console.log(orderDetails)
 
     useEffect(() => {
         if (!props.token){
@@ -62,31 +64,6 @@ export default function ConsumerDashboard(props){
         
     }
 
-    function OrderCardList(){
-        if (displayOrder){
-            console.log(orderObject.orders)
-            const arr = orderObject.orders
-            return(
-                <ul>
-                    {arr.map(function(order){
-                        return (
-                        <li key={order.id}>
-                            <OrderCard data={order} handleClick={handleClick}/>
-                        </li>
-                        )
-                    }
-                    )}
-                </ul>
-            )
-        } else {
-            console.log("not displaying orders")
-            return(
-            <div>
-                
-            </div>)
-        }
-    }
-
     if(Object.keys(orderObject).length === 0) {
         return (
             <div>
@@ -100,10 +77,10 @@ export default function ConsumerDashboard(props){
             <div className = "pageTitle">{consumerInfo.name + " Dashboard"}</div>
             <div className = "horizontalContainer">
             <div className = "orderList">
-                <OrderCardList />
+                <OrderCardList displayOrder={displayOrder} orderObject={orderObject} handleClick={handleClick}/>
             </div>
             <div className = "focusDetails">
-                <OrderDetails />
+                <OrderDetails/>
             </div>
             </div>
         </div>
