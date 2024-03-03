@@ -45,12 +45,17 @@ export async function getNearbyProducers(email: string, meters: number): Promise
 }
 
 export async function sendOrder(email: string, orderRequest: OrderRequest): Promise<Message> {
+    const account = await getAccount(email);
     const request = {
         email: email,
         time_to_expire: Date.now() + orderRequest.minutes_to_expire * 60 * 1000,
         description: orderRequest.description,
         image_url: orderRequest.image_url,
         pounds: orderRequest.pounds,
+        location: {
+            type: "Point",
+            coordinates: account.location.coordinates
+        },
         status: "open"
     };
 
@@ -71,6 +76,40 @@ export async function getOrdersByEmail(email: string): Promise<RequestResponse[]
             image_url: o.image_url,
             pounds: o.pounds,
             status: o.status,
+            location: {
+                longitude: o.location.coordinates[0],
+                latitude: o.location.coordinates[1]
+            },
+            _id: o._id
+        };
+    });
+    return formattedOrders;
+}
+
+export async function getNearbyOrders(email: string, meters: number): Promise<RequestResponse[]> {
+    const account = await getAccount(email);
+    const nearbyOrders = await orders.find({
+        location: {
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: account.location.coordinates
+                },
+                $maxDistance: meters
+            }
+        }
+    }).toArray();
+    const formattedOrders = nearbyOrders.map(o => {
+        return {
+            minutes_to_expire: o.minutes_to_expire,
+            description: o.description,
+            image_url: o.image_url,
+            pounds: o.pounds,
+            status: o.status,
+            location: {
+                longitude: o.location.coordinates[0],
+                latitude: o.location.coordinates[1]
+            },
             _id: o._id
         };
     });

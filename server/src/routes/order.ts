@@ -2,7 +2,8 @@ import express from "express";
 
 import { getEmailFromSessionToken } from "../services/sessionManagerService";
 import { sendBadRequestMessage, sendOkMessage } from "../services/responseService";
-import { getOrdersByEmail, sendOrder } from "../services/databaseService";
+import { getNearbyOrders, getOrdersByEmail, sendOrder } from "../services/databaseService";
+import { rangeInMeters } from "../constants";
 
 const router = express.Router();
 
@@ -39,6 +40,17 @@ router.get("/my-orders", async (req, res) => {
     }
 });
 
+router.get("/nearby-orders", async (req, res) => {
+    const sessionToken = req.header("Session-Token");
+    const email = getEmailFromSessionToken(sessionToken);
+    if(!email) return sendBadRequestMessage(res, "Invalid session token");
 
+    try {
+        const nearbyOrders = await getNearbyOrders(email, rangeInMeters);
+        return sendOkMessage(res, "", { orders: nearbyOrders });
+    } catch(ex: any) {
+        return sendBadRequestMessage(res, ex.message || "Unknown error");
+    }
+});
 
 export default router;

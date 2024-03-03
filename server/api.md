@@ -112,6 +112,10 @@ Used by producers.
             description: string,
             image_url: string,
             pounds: number,
+            location: {
+                longitude: number,
+                latitude: number
+            }
             status: "open" | "claimed" | "expired" | "closed",
             _id: ObjectID
         }

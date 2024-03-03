@@ -3,14 +3,13 @@ import express from "express";
 import auth from "./routes/auth";
 import account from "./routes/account";
 import order from "./routes/order";
+import { port } from "./constants";
 
 const cors = require("cors");
 
 require("./services/databaseService");
 
 const app = express();
-const port = 3000;
-const radiusInMeters = 10000;
 
 app.use(express.json());
 app.use(cors());
