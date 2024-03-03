@@ -119,7 +119,7 @@ are not accepted at this time.
                     <input name="description" placeholder="Describe your business (optional)"/>
                     <input name="address" placeholder="Business address"/>
                     <input name="username" placeholder="Email"/>
-                    <input name="password" placeholder="Password"/>
+                    <input type="password" name="password" placeholder="Password"/>
                     <select name="type">
                         <option value="producer">Restaurant</option>
                         <option value="consumer">Food Bank</option>
