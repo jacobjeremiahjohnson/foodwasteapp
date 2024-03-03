@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { apiUrl } from "../App.js"
 import "./styles/SupplierDashboard.css"
 import picker from "../assets/picker.png"
+import { OrderCardList } from "./OrderCardList.js"
 
 import {
     Chart as ChartJS,
@@ -49,10 +50,28 @@ export default function SupplierDashboard(props){
     const [orderInfo, setOrderInfo] = useState({})
     const [imageUrl, setImageUrl] = useState(picker)
 
+    const [myOrderList, setMyOrderList] = useState({})
+
     useEffect(() => {
         if (!props.token){
             navigate("/login")
         }
+
+        fetch(apiUrl + "order/my-orders", {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'same-origin',
+            headers: {
+                "Content-Type": "application/json",
+                "session-token": props.token
+            }
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json.data)
+            setMyOrderList(json.data)
+        })
+
         fetch(apiUrl + "account/me", {
             method: 'GET',
             mode: 'cors',
@@ -87,6 +106,10 @@ export default function SupplierDashboard(props){
             console.log(json)
         })
     }, [orderInfo, props.token])
+
+    function handleClick(props, data){
+        setMyOrderList(data)
+    }
 
     function onImageChange(e) {
         setImageUrl(URL.createObjectURL(e.target.files[0]))
@@ -163,6 +186,7 @@ export default function SupplierDashboard(props){
                             }
                         }}
                     />
+                    <OrderCardList displayOrder={true} orderObject={myOrderList} handleClick={handleClick}/>
                 </div>
             </div>
         </div>

@@ -1,13 +1,9 @@
 export function OrderCard(props) {
-    function handleClick(props, data){
-        setOrderDetails(data)
-    }
-
     return(
         <div>
         <div className="orderContainer">
             <div className="imageContainer">
-                <img className="image" src={props.data.image_url} />
+                <img className="image" src={props.data.image_url} alt={`${props.data.name}'s food`}/>
             </div>
             <div className="orderTextContainer">
                 <div className="restaurantTitle">

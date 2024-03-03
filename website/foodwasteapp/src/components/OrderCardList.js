@@ -3,7 +3,8 @@ import { OrderCard } from "./OrderCard"
 export function OrderCardList(props) {
     if (props.displayOrder){
         console.log(props.orderObject.orders)
-        const arr = props.orderObject.orders
+        const arr = props.orderObject.orders || []
+
         return(
             <ul>
                 {arr.map(function(order){
