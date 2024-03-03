@@ -7,12 +7,17 @@ import "./styles/SupplierDashboard.css"
 async function imageToImageUrl(file) {
     const body = new FormData()
     body.append("image", file)
-    const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_img_bb_api_key}`, {
-        method: "POST",
-        body: body
-    })
-    const json = res.json()
-    console.log(json)
+    try {
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_img_bb_api_key}`, {
+            method: "POST",
+            body: body
+        })
+        const json = await res.json()
+        return json.data.image.url
+    } catch(ex) {
+        console.error(ex)
+        alert("error uploading image")
+    }
 }
 
 export default function SupplierDashboard(props){
@@ -60,13 +65,17 @@ export default function SupplierDashboard(props){
         })
     }, [orderInfo])
 
-    function createOrder(formData){
+    async function createOrder(formData){
         formData.preventDefault()
+
+        if(formData.target[3].files.length !== 1) return console.log("invalid number of files selected")
+
+        const imageUrl = await imageToImageUrl(formData.target[3].files[0])
         const query = {
-            minutes_to_expire: formData.target[0].value,
-            description: formData.target[1].value,
-            image_url: formData.target[2].value,
-            pounds: formData.target[3].value
+            minutes_to_expire: formData.target[1].value,
+            description: formData.target[0].value,
+            image_url: imageUrl,
+            pounds: formData.target[2].value
         }
         console.log(query)
         setOrderInfo(query)
