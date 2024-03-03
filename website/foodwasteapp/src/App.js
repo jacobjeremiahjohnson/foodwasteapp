@@ -17,9 +17,8 @@ export function App() {
   return (
     <div className="App">
       <Router>
-      <Header/>
       <Routes>
-        <Route exact path='/' element={<Create setToken = {setToken}/>} />
+        <Route exact path='/*' element={<Create setToken = {setToken}/>} />
         <Route exact path='/login' element={<Login setToken = {setToken}/> } />
         <Route exact path='/dashboard' element={<SupplierDashboard token = {token}/>} />
         <Route exact path='/live' element={<ConsumerDashboard token = {token}/>} />

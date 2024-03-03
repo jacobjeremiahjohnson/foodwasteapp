@@ -2,6 +2,7 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { apiUrl } from "../App.js"
+import "./styles/Login.css"
 
 export default function Login(props){
     const navigate = useNavigate()
@@ -12,6 +13,7 @@ export default function Login(props){
         if (Object.keys(userInfo).length === 0){
             return
         }
+
         fetch(apiUrl + 'auth/login', {
             method: 'POST',
             mode: 'cors',
@@ -31,6 +33,7 @@ export default function Login(props){
         if (Object.keys(response).length === 0){
             return
         }
+        console.log(response.data.session_token)
         props.setToken(response.data.session_token)
         if(response.data.type === "producer"){
             navigate("/dashboard")
@@ -48,12 +51,17 @@ export default function Login(props){
     }
 
     return (
-        <div className = "main form">
-            <form onSubmit={login}>
+        <div className = "main">
+        <div className = "loginForm">
+            <div className="title">
+                Log In
+            </div>
+            <form onSubmit={login} className="form">
                 <input name="username" placeholder="Email"/>
                 <input name="password" placeholder="Password"/>
                 <button type="submit">Log In</button>
             </form>
+        </div>
         </div>
     )
 }

@@ -9,14 +9,14 @@
     gap: 10px;
 }
 
-.createForm {
+.loginForm {
     margin-top: 30px;
     width: 70%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.form input{
+.loginForm input{
     width: 60%;
     margin-left: auto;
     margin-right: auto;
@@ -27,24 +27,13 @@
     border-top: none;
 }
 
-.form input:focus{
+.loginForm input:focus{
     outline: none;
     box-shadow: none;
 }
 
-.form select{
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 8px;
-    text-align: center;
-
-}
-
-.form button{
-    width: 40%;
-    margin-left: auto;
-    margin-right: auto;
+.loginForm button{
+    width: 50%;
     padding: 15px;
     background-color: #11AEB7;
     border-radius: 8px;
@@ -52,34 +41,7 @@
     border: none;
 }
 
-.form button:focus{
+.loginForm button:focus{
     outline: none;
     box-shadow: none;
 }
-
-.loginLink {
-    font-size: 12px;
-    color: blue;
-}
-
-.loginLink:hover{
-    cursor: pointer;
-}
-
-.loginButton {
-    font-size: 20px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .title {
-    font-size: 33px;
-  }
-  
-  .disclaimer {
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    font-size: 12px;
-  }
