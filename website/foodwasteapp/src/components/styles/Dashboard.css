@@ -1,3 +1,41 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    
+}
+
 .title {
     margin-right: auto;
+    text-align: left;
+
+}
+
+.orderList {
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 1px;
+    border-radius: 10px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.orderContainer {  
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    background-color: white;
+    height: 100%;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 75px;
+}
+
+.imageContainer {
+    height: 100%;
 }
