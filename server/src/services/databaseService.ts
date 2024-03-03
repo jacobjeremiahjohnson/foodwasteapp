@@ -48,10 +48,12 @@ export async function sendOrder(email: string, orderRequest: OrderRequest): Prom
     const account = await getAccount(email);
     const request = {
         email: email,
+        name: account.name,
         time_to_expire: Date.now() + orderRequest.minutes_to_expire * 60 * 1000,
         description: orderRequest.description,
         image_url: orderRequest.image_url,
         pounds: orderRequest.pounds,
+        address: account.address,
         location: {
             type: "Point",
             coordinates: account.location.coordinates
@@ -71,12 +73,15 @@ export async function getOrdersByEmail(email: string): Promise<RequestResponse[]
     const myOrders = await orders.find({ email: email }).toArray();
     const formattedOrders = myOrders.map(o => {
         return {
+            email: o.email,
+            name: o.name,
             minutes_to_expire: o.minutes_to_expire,
             description: o.description,
             image_url: o.image_url,
             pounds: o.pounds,
             status: o.status,
             location: {
+                address: o.address,
                 longitude: o.location.coordinates[0],
                 latitude: o.location.coordinates[1]
             },
@@ -101,12 +106,15 @@ export async function getNearbyOrders(email: string, meters: number): Promise<Re
     }).toArray();
     const formattedOrders = nearbyOrders.map(o => {
         return {
+            email: o.email,
+            name: o.name,
             minutes_to_expire: o.minutes_to_expire,
             description: o.description,
             image_url: o.image_url,
             pounds: o.pounds,
             status: o.status,
             location: {
+                address: o.address,
                 longitude: o.location.coordinates[0],
                 latitude: o.location.coordinates[1]
             },

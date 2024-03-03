@@ -108,11 +108,14 @@ Used by producers.
     orders: [
         ...
         {
+            email: string,
+            name: string
             time_to_expire: number (unix milliseconds),
             description: string,
             image_url: string,
             pounds: number,
             location: {
+                address: string,
                 longitude: number,
                 latitude: number
             }
