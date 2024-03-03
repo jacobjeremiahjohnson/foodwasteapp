@@ -1,0 +1,13 @@
+.main{
+    margin: 10px;
+}
+
+.title{
+    text-align: left;
+    padding: 5px;
+    width: 100%;
+    border-bottom: 1px solid #ababab;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}

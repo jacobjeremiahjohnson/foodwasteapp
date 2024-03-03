@@ -14,6 +14,7 @@ export default function Login(props){
         if (Object.keys(response).length === 0){
             return
         }
+        console.log(response)
         if (response.message === "Account successfully created"){
             fetch(apiUrl + 'auth/login', {
                 method: 'POST',
@@ -27,13 +28,13 @@ export default function Login(props){
             .then(response => response.json())
             .then(json => {
                 props.setToken(json.data.session_token)
+                console.log(userInfo.type)
+                if (userInfo.type === "producer"){
+                    navigate("/dashboard")
+                } else if (userInfo.type === "consumer"){
+                    navigate("/live")
+                }
             })
-            console.log(userInfo.type)
-            if (userInfo.type === "producer"){
-                navigate("/dashboard")
-            } else if (userInfo.type === "consumer"){
-                navigate("/live")
-            }
         }        
     }, [response])
 
@@ -41,6 +42,7 @@ export default function Login(props){
         if (Object.keys(userInfo).length === 0){
             return
         }
+        console.log(userInfo)
         fetch(apiUrl + 'auth/create-account/', {
             method: 'POST',
             mode: 'cors',
@@ -51,7 +53,9 @@ export default function Login(props){
             body: JSON.stringify(userInfo)
         })
         .then(response => response.json())
-        .then(json => setResponse(json))
+        .then(json => {
+            setResponse(json)
+        })
     }, [userInfo])
 
     function createAccount(formData){
