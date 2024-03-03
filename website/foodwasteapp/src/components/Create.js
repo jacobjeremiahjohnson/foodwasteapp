@@ -90,12 +90,27 @@ export default function Login(props){
         })
     }
 
+    // function getAddresses(query){
+    //     const formattedQuery = encodeURI(query)
+    //     fetch("https://nominatim.openstreetmap.org/search?q=" + formattedQuery + "&format=json")
+    //     .then()
+    // }
+
     return (
-        <div className="loginForm main">
+        <div className="main">
+            <div className="createForm">
+            <div className="title">
+                Create your account
+            </div>
+            <div className="disclaimer">
+            Please note that only business addresses
+are accepted. Residences and other addresses
+are not accepted at this time.
+            </div>
             <form onSubmit={createAccount} className="form">
-                    <input name="name" placeholder="Name"/>
-                    <input name="description" placeholder="Description"/>
-                    <input name="address" placeholder="Address"/>
+                    <input name="name" placeholder="Name of business"/>
+                    <input name="description" placeholder="Describe your business (optional)"/>
+                    <input name="address" placeholder="Business address"/>
                     <input name="username" placeholder="Email"/>
                     <input name="password" placeholder="Password"/>
                     <select name="type">
@@ -103,9 +118,10 @@ export default function Login(props){
                         <option value="consumer">Food Bank</option>
                     </select>
                     <button type="submit">Create Account</button>
+                    <div className="loginLink" onClick={()=>{navigate("/login")}}>
+                        Already have an account?
+                    </div>
             </form>
-            <div className="error"> 
-                {}
             </div>
         </div>
     )

@@ -5,7 +5,7 @@ export default function Header(){
     return (
     <div>
         <div className="footer">
-            footer
+            Published 2024
         </div>
     </div>
     )
