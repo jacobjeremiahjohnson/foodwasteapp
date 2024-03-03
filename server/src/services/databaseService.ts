@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const bcrypt = require("bcryptjs");
 
@@ -125,7 +125,7 @@ export async function getNearbyOrders(email: string, meters: number): Promise<Re
 }
 
 export async function claimOrder(id: string): Promise<Message> {
-    const results = await orders.updateOne({ _id: id }, { $set: { status: "claimed" } });
-    if(results.matchedCount !== 0) return { message: "No order found with that ID", messageType: "error" };
+    const results = await orders.updateOne({ _id: new ObjectId(id) }, { $set: { status: "claimed" } });
+    if(results.matchedCount === 0) return { message: "No order found with that ID", messageType: "error" };
     return { message: "Successfully claimed order", messageType: "info" };
 }

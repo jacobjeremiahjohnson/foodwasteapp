@@ -79,7 +79,7 @@ For all of these you need Session-Token = (token) set in the headers
     ]
 }
 
-# orders
+# order
 
 need a Session-Token like above
 

@@ -3,7 +3,7 @@ const sessionTokens: {
 } = {}
 
 function generateSessionToken(): string {
-    return "t" + Date.now() + Math.random();
+    return "t" + Date.now() + Math.random().toString().substring(2) + Math.random().toString().substring(2);
 }
 
 export function getEmailFromSessionToken(token: string): string {

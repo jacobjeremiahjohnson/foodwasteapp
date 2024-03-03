@@ -2,7 +2,7 @@ import express from "express";
 
 import { getEmailFromSessionToken } from "../services/sessionManagerService";
 import { sendBadRequestMessage, sendOkMessage } from "../services/responseService";
-import { getNearbyOrders, getOrdersByEmail, sendOrder } from "../services/databaseService";
+import { claimOrder, getNearbyOrders, getOrdersByEmail, sendOrder } from "../services/databaseService";
 import { rangeInMeters } from "../constants";
 
 const router = express.Router();
@@ -61,7 +61,9 @@ router.post("/claim-order", async (req, res) => {
     const id = req.body.id
 
     try {
-        
+        const message = await claimOrder(id);
+        if(message.messageType === "error") return sendBadRequestMessage(res, message.message);
+        return sendOkMessage(res, message.message);
     } catch(ex: any) {
         return sendBadRequestMessage(res, ex.message || "Unknown error");
     }
