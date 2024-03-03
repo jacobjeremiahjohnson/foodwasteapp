@@ -1,23 +1,47 @@
 .main {
     display: flex;
     flex-direction: column;
-    
+    justify-content: space-between;
+    height: 100%;
 }
 
-.title {
+.pageTitle {
     margin-right: auto;
     text-align: left;
+    font-size: 33px;
+    padding-bottom: 5px;
+}
 
+.imageContainer {
+    padding: 5px;
+    width: 120px;
+    height: 120px;
+    display: table-cell;
+    vertical-align: middle; 
+    text-align: center;
+}
+
+.image {
+    width: 100px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
 }
 
 .orderList {
-    width: 100%;
+    width: 65%;
     height: 100%;
     background-color: lightblue;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 1px;
     border-radius: 10px;
+    overflow-y: auto;
+}
+
+.orderList::-webkit-scrollbar {
+    display: none;
 }
 
 ul {
@@ -27,15 +51,52 @@ ul {
 .orderContainer {  
     display: flex;
     flex-direction: row;
-    justify-content: stretch;
+    justify-content: space-between;
     background-color: white;
     height: 100%;
     border-radius: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
-    height: 75px;
+    height: 120px;
 }
 
-.imageContainer {
+.orderTextContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
     height: 100%;
+    width: 100%;
+    text-align: left;
+    flex: 7;
+    gap: 8px;
+}
+
+.restaurantTitle {
+    font-size: 20px;
+}
+
+.address {
+    font-size: 12px;
+    color: grey;
+}
+
+.description {
+    font-size: 12px;
+}
+
+.expirationNotifier {
+    flex: 2;
+    margin: 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+}
+
+button {
+    padding: 0;
+    border: none;
+}
+
+.emojiContainer {
+    font-size: 50px;
 }

@@ -22,10 +22,13 @@ html, body {
 }
 
 .footer {
-  display: grid;
   align-items: center;
-  height: 25px;
-  background-color: black;
   color: #757575;
+  background-color: black;
   font-size: 10px;
+  padding: 1px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }
