@@ -49,7 +49,7 @@ export default function SupplierDashboard(props){
     const [producerInfo, setProducerInfo] = useState({})
     const [orderInfo, setOrderInfo] = useState({})
     const [imageUrl, setImageUrl] = useState(picker)
-
+    const [refresh, setRefresh] = useState(false)
     const [myOrderList, setMyOrderList] = useState({})
 
     useEffect(() => {
@@ -85,7 +85,8 @@ export default function SupplierDashboard(props){
         .then(json => {
             setProducerInfo(json.data)
         })
-    }, [navigate, props.token])
+        setRefresh(false)
+    }, [navigate, props.token, refresh])
 
     useEffect(() => {
         if (Object.keys(orderInfo).length === 0){
@@ -103,6 +104,7 @@ export default function SupplierDashboard(props){
         })
         .then(response => response.json())
         .then(json => {
+            setRefresh(true)
             console.log(json)
         })
     }, [orderInfo, props.token])

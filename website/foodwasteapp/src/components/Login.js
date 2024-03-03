@@ -61,7 +61,7 @@ export default function Login(props){
                 </div>
                 <form onSubmit={login} className="form">
                     <input name="username" placeholder="Email"/>
-                    <input name="password" placeholder="Password"/>
+                    <input type="password" name="password" placeholder="Password"/>
                     <button type="submit">Log In</button>
                 </form>
             </div>
