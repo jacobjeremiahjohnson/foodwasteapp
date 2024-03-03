@@ -26,6 +26,7 @@ ChartJS.register(
 );
 
 async function imageToImageUrl(file) {
+    console.log(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_img_bb_api_key}`)
     const body = new FormData()
     body.append("image", file)
     try {

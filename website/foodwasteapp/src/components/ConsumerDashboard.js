@@ -9,6 +9,24 @@ export default function ConsumerDashboard(props){
     const [consumerInfo, setConsumerInfo] = useState({})
     const [orderObject, setOrders] = useState({})
     const [displayOrder, setDisplayOrder] = useState(false)
+    const [orderDetails, setOrderDetails] = useState({})
+
+    // async function imageToImageUrl(file) {
+    //     const body = new FormData()
+    //     body.append("image", file)
+    //     console.log(body)
+    //     try {
+    //         const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_img_bb_api_key}`, {
+    //             method: "POST",
+    //             body: body
+    //         })
+    //         const json = await res.json()
+    //         return json.data.image.url
+    //     } catch(ex) {
+    //         console.error(ex)
+    //         alert("error uploading image")
+    //     }
+    // }
 
     useEffect(() => {
         if (!props.token){
@@ -52,6 +70,14 @@ export default function ConsumerDashboard(props){
         console.log(orderObject)
     }, [orderObject])
 
+    function handleClick(props, data){
+        setOrderDetails(data)
+    }
+
+    function OrderDetails() {
+        
+    }
+
     function OrderCard(props){
         console.log(props)
 
@@ -59,23 +85,54 @@ export default function ConsumerDashboard(props){
             <div>
             <div className="orderContainer">
                 <div className="imageContainer">
-                    {props.data.image_url}
+                    <img className="image" src={props.data.image_url} />
                 </div>
                 <div className="orderTextContainer">
                     <div className="restaurantTitle">
                         {props.data.name}
                     </div>
                     <div className="address">
-                        {props.data.address}
+                        {props.data.location.address}
                     </div>
                     <div className="description">
                         {props.data.description}
                     </div>
                 </div>
-                <div className="expirationNotifier">
-                    {props.data.status}
+                {props.data.status === "expired" && 
+                    <div className="expirationNotifier" style = {{ backgroundColor: "#BD0008" }}>
+                        <div className="emojiContainer">
+                            🗑️
+                        </div>
+                        <div className="expiration">
+                            {props.data.status}
+                        </div>
+                    </div>
+                    }
+                    {
+                        props.data.status === "closed" &&
+                        <div className="expirationNotifier" style = {{ backgroundColor: "grey" }}>
+                            <div className="emojiContainer">
+                            ✔️
+                            </div>
+                                <div className="expiration">
+                            {props.data.status}
+                            </div>
+                        </div>
+                    }
+                    {
+                        props.data.status === "open" &&
+                        <button className="expirationNotifier" style = {{ backgroundColor: "#90C418" }} onClick={(e) => {
+                            handleClick(e, props.data)
+                        }}>
+                            <div className="emojiContainer">
+                            🕒
+                            </div>
+                            <div className="expiration" >
+                            {props.data.status}
+                            </div>
+                        </button>
+                    }
                 </div>
-            </div>
             </div>
         )
     }
@@ -115,9 +172,14 @@ export default function ConsumerDashboard(props){
 
     return(
         <div className = "main">
-            <div className = "title">{consumerInfo.name + " Dashboard"}</div>
+            <div className = "pageTitle">{consumerInfo.name + " Dashboard"}</div>
+            <div className = "horizontalContainer">
             <div className = "orderList">
                 <OrderCardList />
+            </div>
+            <div className = "focusDetails">
+                <OrderDetails />
+            </div>
             </div>
         </div>
     )
